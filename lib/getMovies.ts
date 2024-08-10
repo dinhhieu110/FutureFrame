@@ -57,3 +57,11 @@ export const getSearchedMovies = async (term?: string) => {
   const data = await fetchFromTMDB(url);
   return data.results;
 };
+
+export const getListGenres = async () => {
+  const url = new URL(
+    "https://api.themoviedb.org/3/genre/movie/list?language=en"
+  );
+  const listGenres = await fetchFromTMDB(url);
+  return listGenres.results;
+};
