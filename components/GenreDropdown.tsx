@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import { Genres } from "../interfaces";
 import {
   DropdownMenu,
@@ -10,24 +11,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import { ChevronDown } from "lucide-react";
-async function GenreDropdown() {
+import { listGenres as listTypes } from "@/app/constants";
+function GenreDropdown() {
   const url = "https://api.themoviedb.org/3/genre/movie/list?language=en";
-
-  const options: RequestInit = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
-    },
-    next: {
-      revalidate: 60 * 60 * 24, // 24h, even we have millions user, only 1 request to server for data --> caching
-    },
-  };
-
-  fetch(url, options)
-    .then((res) => res.json())
-    .then((json) => console.log(json))
-    .catch((err) => console.error("error:" + err));
+  const [listGenres, setListGenres] = useState<Genres>(listTypes);
 
   return (
     <DropdownMenu>
@@ -36,15 +23,13 @@ async function GenreDropdown() {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuLabel>Select a Genre</DropdownMenuLabel>
-        {/* {data.genres.map(genre => (
-         
-            <DropdownMenuItem key ={genre.id} className="text-white">
-             <Link href={`/genre/${genre.id}?genre=${genre.name}` }>
-             {genre.name}
-             </Link>
-             </DropdownMenuItem>
-          
-        ))} */}
+        {listGenres?.genres?.map((genre) => (
+          <DropdownMenuItem key={genre.id} className="text-white">
+            <Link href={`/genre/${genre.id}?genre=${genre.name}`}>
+              {genre.name}
+            </Link>
+          </DropdownMenuItem>
+        ))}
       </DropdownMenuContent>
     </DropdownMenu>
   );

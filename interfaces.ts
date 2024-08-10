@@ -30,4 +30,4 @@ interface Movie {
   vote_average: number;
   vote_count: number;
 }
-export type { Genre, Genres, SearchResults };
+export type { Genre, Genres, SearchResults, Movie };
