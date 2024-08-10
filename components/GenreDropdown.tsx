@@ -1,6 +1,7 @@
 "use client";
+
 import React, { useState } from "react";
-import { Genres } from "../interfaces";
+import { Genres } from "../lib/interfaces";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,9 +13,25 @@ import {
 import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 import { listGenres as listTypes } from "@/app/constants";
-function GenreDropdown() {
+const GenreDropdown = () => {
   const url = "https://api.themoviedb.org/3/genre/movie/list?language=en";
-  const [listGenres, setListGenres] = useState<Genres>(listTypes);
+  const [listGenres, setListGenres] = useState<Genres>();
+
+  const options: RequestInit = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
+    },
+    next: {
+      revalidate: 60 * 60 * 24, // 24h, even we have millions user, only 1 request to server for data --> caching
+    },
+  };
+
+  fetch(url, options)
+    .then((res) => res.json())
+    .then((json) => setListGenres(json))
+    .catch((err) => console.error("error:" + err));
 
   return (
     <DropdownMenu>
@@ -33,6 +50,6 @@ function GenreDropdown() {
       </DropdownMenuContent>
     </DropdownMenu>
   );
-}
+};
 
 export default GenreDropdown;

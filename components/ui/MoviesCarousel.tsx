@@ -11,7 +11,7 @@ const MoviesCarousel: React.FC<MoviesCarouselProps> = ({
   isVertical,
 }) => {
   return (
-    <div className="z-50 ">
+    <div className="z-50">
       <h2>{title}</h2>
     </div>
   );

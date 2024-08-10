@@ -22,7 +22,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange // Transition from dark to light mode, or ...
         >
-          {/* <Header /> */}
+          <Header />
           {children}
         </ThemeProvider>
       </body>
