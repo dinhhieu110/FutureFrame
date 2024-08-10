@@ -16,7 +16,6 @@ import { listGenres as listTypes } from "@/app/constants";
 const GenreDropdown = () => {
   const url = "https://api.themoviedb.org/3/genre/movie/list?language=en";
   const [listGenres, setListGenres] = useState<Genres>();
-
   const options: RequestInit = {
     method: "GET",
     headers: {
